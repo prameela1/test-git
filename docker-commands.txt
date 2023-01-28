@@ -1,0 +1,1379 @@
+devops
+today@1234
+
+
+https://drive.google.com/drive/folders/1g0KHabgdpkXOuPSs8Lh8xrvgvT66d0QQ?usp=sharing
+
+McAfee Antivirus -  Here's your serial number:S9RAXNNTSCP9ZGA
+prameela.madineni@wipro.com
+Fgbank@5329
+
+AWS Videos Drive : https://t.co/MVyKHZAEsK
+Devops Drive : https://t.co/TLH4cfusAd
+
+kubernetes questions & answers blog
+===================================
+https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552
+
+JSON : Java script object notation
+YAML : yet another markup language
+
+kubernetes questions & answers blog
+===================================
+https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552
+https://marsforever.com/2020/01/22/CKA-with-Practice-Tests/
+https://github.com/StenlyTU/K8s-training-official
+https://gist.github.com/vishnuhd/415168eddc9b32c7f7bf5729d3bf643d  -- all our questions with answers
+
+https://github.com/damroo/ckad-imperative-commands
+https://gist.github.com/texasdave2/8f4ce19a467180b6e3a02d7be0c765e7   -- exam questions
+
+for installing docker
+=====================
+
+sudo apt-get remove docker docker-engine docker.io containerd runc
+sudo apt-get update  - for updating os package
+    sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    sudo apt-get update
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io   
+
+service docker status
+cd /var/lib/docker
+
+hub.docker.com
+
+
+docker pull leaddevops/petclinic
+
+docker exec -it containerid
+
+docker pull nginx
+docker pull centos
+docker pull leaddevops/petclinic
+
+docker images/
+
+docker run imagename/docker container run imagename
+docker ps  
+docker run -d nginx
+foreground
+detached/background - if it will directly server the endusers 
+interactive  -it means interactive mode and it will take u to that perticular mode (it wont serve endusers directly)
+control p+q is the way to come out of container
+
+docker inspect nginx
+
+https://github.com/lerndevops/educka
+
+
+docker run -it ubuntu:16.04
+ 
+ apt-get update
+ apt-get install -y nginx vim 
+ cd /var/www/html
+ vi index.nginx-debian.html
+ 
+ ctrl+pq
+ 
+ 143  docker commit -m "nginx on ubuntu" -c 'CMD /usr/sbin/nginx -g "daemon off;"' -c 'EXPOSE 80' 71c104c0c605 ravinginx:v2
+  144  clear
+  145  docker run -d -P ravinginx:v2
+
+
+
+
+vi  Dockerfile
+============== 
+FROM ubuntu:16.04
+RUN apt-get update
+RUN apt-get install -y nginx vim
+RUN rm /var/www/html/*
+RUN echo "<H1> This is Automation of prami image </H1>" > /var/www/html/index.html
+CMD /usr/sbin/nginx -g "daemon off;"
+EXPOSE 80
+
+docker build -t pramiauto:v1 .
+docker run -d -P pramiauto:v1
+
+
+--------------------------------------
+
+vi file1 
+FROM pramiauto:v1
+RUN rm /var/www/html/*
+COPY /tmp/index.html /var/www/html/
+
+docker build -t pramiimage:v2 -f file3 /tmp
+
+
+173  git clone https://github.com/lerndevops/educka
+  174  cd educka/docker/
+  175  cd images/
+  176  vi dockerfile_myapp 
+  177  cd ..
+  178  cd code/
+  179  ls -l
+  180  pwd
+  181  cd ../images/
+  182  docker build -t raviapp -f dockerfile_myapp /root/educka/docker/code
+  183  docker images
+  184  clear
+  185  docker run -d -P raviapp
+  186  docke rps
+  187  clear
+  188  docker ps
+  189  docker images
+  190  docker image prune 
+  191  docker image prune -a 
+  192  docker images
+  193  ls -l
+  194  clear
+  195  cd
+  196  history
+
+
+docker images myapp
+================== 
+
+FROM ubuntu
+RUN apt-get -y update 
+RUN apt-get -y install openjdk-8-jdk wget
+RUN mkdir /opt/tomcat
+COPY tomcat-8.5.37.tar.gz /tmp 
+RUN cd /tmp && tar xvfz tomcat-8.5.37.tar.gz
+RUN cp -Rv /tmp/apache-tomcat-8.5.37/* /opt/tomcat/
+RUN rm /tmp/tomcat-8.5.37.tar.gz
+COPY myapp.war /opt/tomcat/webapps
+EXPOSE 8080
+CMD /opt/tomcat/bin/catalina.sh run
+
+
+
+kubernetes installation
+======================
+
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update ; clear
+sudo apt-get install -y docker-ce
+sudo service docker start ; clear
+
+echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo apt-get update ; clear
+sudo apt-get install -y kubelet kubeadm kubectl	
+
+
+master only
+
+sudo kubeadm init --ignore-preflight-errors=all
+
+sudo mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+## Weave
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+
+kubectl get nodes
+kubectl get all --all-namespaces
+
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 10.128.0.3:6443 --token fawftr.2v56yqe9q1xuf8ao \
+    --discovery-token-ca-cert-hash sha256:97bb1b8cb824ef8e8486561620b3a9d21fe87037c341ab74973bdd0a8a082410
+
+
+
+58  kubectl run pod1 --image nginx
+   59  kubectl get pods
+   60  kubectl get pods -o wide
+   61  kubectl describe pod pod1
+
+
+
+ 68  kubectl delete pod pod2
+   69  kubectl exec -it pod1 --  bash
+   70  clear
+   71  kubectl logs pod1
+   72  kubectl logs -f pod1
+   73  clear
+   74  kubectl delete pods --all
+
+
+
+78  kubectl get pods
+   79  kubectl get ns
+   80  kubectl get pods -n kube-system
+   81  clear
+   82  kubectl create ns ravins
+   83  kubectl run ravipod  --image nginx -n ravins
+   84  kubectl get pods
+   85  kubectl get pods -n ravins
+
+pod.yml
+======
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pramipod
+spec:
+  containers:
+     - image: nginx
+       name: pod2
+
+kubectl run pod2 --image httpd --dry-run=client -o yaml > pod2.yml
+
+
+101  kubectl run pod2 --image httpd --dry-run=client -o yaml  - for getting the syntax in yaml format
+kubectl run pod2 --image httpd --dry-run=client -o json 
+  102  kubectl run pod2 --image httpd --dry-run=client -o yaml > pod2.yml  - for copying it to pod2.yml file
+  103  clear
+  104  kubectl create -f pod2.yml
+  105  kubectl get pods
+  106  clear
+  107  kubectl get pods ravipod -o yaml   - this is for getting the running pod yaml format syntax
+
+  489  vi pod.yml
+  490  kubectl apply -f pod.yml
+  491  kubectl get pods
+  492  kubectl describe pod pramipod
+
+
+125  kubectl run pod4 --image nginx --labels='env=prod,type=app'
+  126  kubectl get pods --show-labels
+  127  clear
+  128  kubectl get pods -l env=prod
+  129  kubectl run pod4 --image nginx --labels='env=prod,type=app' --dry-run=client -o yaml
+  130  history
+
+
+136  kubectl run devpod --image nginx --env='DBNAME=devdb1'
+  137  kubectl run prodpod --image nginx --env='DBNAME=proddb1'
+  138  kubectl exec -it devpod -- bash    -- for entering into pod
+ printenv - to check commands
+kubectl run devpod --image nginx --env='DBNAME=devdb1' --dry-run=client -o yaml  - for checking the yaml code
+
+
+
+kubectl run pod5 --image leaddevops/petclinic --requests='cpu=0.5,memory=600Mi' --limits='cpu=1,memory=1500Mi'   -- allocating memory and limiting resource
+M - megabite  - decimal
+Mi  - mebibite - binary
+
+1kb - 1000 bites
+1ki  - 1024 bites
+
+master cannot manage static pods
+/var/lib/kubelet # config.yml file it has all the info
+it shows where is static pods /etc/kubernetes/manifests
+
+in master all the 4 components run as static pods /etc/kubernetes/manifests # by default they are running in master
+
+22  cd /var/lib/kubelet/
+   23  ls -l
+   24  cat config.yaml
+   25  cd /etc/kubernetes/manifests
+
+178  kubectl get pods
+  179  kubectl exec -it multi-pod -c one -- bash
+  180  kubectl exec -it multi-pod -c two -- bash
+  
+  184  kubectl exec -it multi-pod -c threear -- bash
+  185  kubectl logs multi-pod -c threear
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-pod
+spec:
+  containers:
+     - image: redis
+       name: one
+     - image: httpd
+       name: two
+     - image: tomcat
+
+
+  477  kubectl get pods
+  478  cat pod.yml
+  479  vi multi-pod.yml
+  480  cat multi-pod.yml
+  481  kubectl create -f multi-pod.yml
+  482  kubectl get pods
+  483  cat multi-pod.yml
+  484  kubectl get pods
+  485  kubectl exec -it multi-pod -c one --bash
+  486  kubectl exec -it multi-pod -c one -- bash
+  487  kubectl exec -it multi-pod -c two -- bash
+  488  kubectl exec -it multi-pod -c three -- bash
+  489  kubectl logs multi-pod -c one
+  490  kubectl get pods -o wide
+  491  kubectl describe multi-pod
+  492  kubectl describe pod multi-pod
+
+
+probes
+
+liveness check
+
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/pods/probes/lp-nginx-pod.yml
+
+readiness check
+
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/pods/probes/rp-nginx-pod.yml
+
+practise everything about pods
+
+ReplicaSet
+==========
+kubectl get rs  - to check replica set
+
+kubectl delete pods -all - if u delete all these by mistake but these 3 will get delete and it will create automatically
+
+194  kubectl explain rs
+  195  clear
+  196  kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/controllers/rs-ex1.yml
+  197  kubectl get rs
+  198  kubectl get pods -o wide
+  199  kubectl delete pods --all
+  200  clear
+  201  kubectl get pods -o wide
+  202  kubectl describe rs test
+  203  clear
+  204  kubectl scale rs test --replicas 6
+  205  kubectl get pods -o wide
+  206  kubectl scale rs test --replicas 1
+  207  kubectl get pods -o wide
+  208  kubectl delete rs test
+  209  clear
+  210  kubectl run pod1 --image lerndevops/samplepyapp:v1 --labels='tier=frontend'
+  211  kubectl get pods -o wide
+  212  kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/controllers/rs-ex1.yml
+  213  kubectl get pods -o wide
+  214  kubectl get pods -o wide -l tier-frontend
+  215  kubectl get pods -o wide -l tier=frontend
+  216  jubectl get rs
+  217  clear
+  218  kubectl get rs
+  219  kubectl get rs --all-namespaces
+  220  clear
+  221  kubectl get pods -o wide
+  222  kubectl delete pod pod1
+  223  kubectl get pods -o wide
+
+service
+=======
+  229  kubectl run pod1 --image nginx --labels='own=ravi'
+  230  kubectl get pods
+  231  kubectl get pods -o wide
+ 
+  234  kubectl get pods
+  235  kubectl expose pod pod1 --name svc1 --port 1234 --target-port 80 --type NodePort
+  236  kubectl get svc
+  237  kubectl describe svc svc1
+  238  clear
+  239  kubectl expose pod pod1 --name svc1 --port 1234 --target-port 80 --type NodePort
+  240  kubectl expose pod pod1 --name svc1 --port 1234 --target-port 80 --type NodePort --dry-run=client -o yaml
+  241  clear
+=============
+
+ 242  kubectl run pod2 --image nginx
+  243  kubectl expose pod pod2 --name svc2 --port 1235 --target-port 80 --type NodePort
+  244  kubectl describe svc svc2
+  245  kubectl get pods --show-labels
+
+  600  kubectl run pod1 --image lerndevops/samplepyapp:v1 --labels='own=prami'
+  601  kubectl expose pod pod1 --name svc1 --port 1234 --target-port 3000 --type NodePort
+  602  kubectl get pods pod1 -o wide
+  603  kubectl get svc
+
+kubectl delete all -all -- it will delete everything wt we have in 
+
+  627  kubectl run pod1 --image nginx
+  628  kubectl get pods
+  629  kubectl expose pod pod1 --name svc1 --port 1234 --target-port 80
+  630  kubectl get svc
+  631  curl 10.97.184.8:1234
+  614  kubectl run pod1 --image nginx --labels='own=prami'
+  615  kubectl expose pod pod1 --name svc1 --port 1234 --target-port 80
+  616  kubectl get svc
+  617  curl 10.111.252.26:1234
+
+  632  kubectl delete all --all
+  633  kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/controllers/rs-ex2.yml
+kubectl get rs,pods,svc
+
+while true;do curl 10.109.245.251:3000;sleep 1; echo "";done    - for just checking the loadbalancing concept
+
+root@master:~# while true;do curl 10.105.162.132:3000;sleep 1; echo "";done
+this is my V2 app - Container ID: samplers-b4n6w
+this is my V2 app - Container ID: samplers-hbg9h
+this is my V2 app - Container ID: samplers-hbg9h
+this is my V2 app - Container ID: samplers-b4n6w
+this is my V2 app - Container ID: samplers-7hb5c
+this is my V2 app - Container ID: samplers-b4n6w
+this is my V2 app - Container ID: samplers-b4n6w
+this is my V2 app - Container ID: samplers-hbg9h
+this is my V2 app - Container ID: samplers-7hb5c
+this is my V2 app - Container ID: samplers-7hb5c
+this is my V2 app - Container ID: samplers-b4n6w^C
+
+Deployment (controller type)
+
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/controllers/deployment-ex3.yml
+
+ 215  kubectl get deploy
+  216  kubectl describe deploy kubeserve
+  217  clear
+  218  kubectl get rs
+  219  kubectl get rs -o wide
+  220  kubectl get pods -o wide
+  221  kubectl get svc
+  222  kubectl describe svc kubeserve-svc
+kubectl get deploy,pods,rs,svc -o wide   - for checking all at a time
+root@master:~# curl 10.98.247.84:80
+This is v1 pod kubeserve-6975497d98-hr6q5
+ 
+take 2 command promopts of master node
+=======================================
+
+cmd1
+
+228  while true; do curl 10.103.161.146:80; sleep 1;echo " ";done
+
+
+comd2:
+
+  278  kubectl get svc
+  279  kubectl get pods
+  280  kubectl set image deploy kubeserve app=leaddevops/kubeserve:v2
+  281  kubectl rollout status deploy kubeserve
+  282  kubectl rollout history deploy kubeserve
+  283  kubectl set image deploy kubeserve app=leaddevops/kubeserve:v3 --record=true
+  284  kubectl rollout status deploy kubeserve
+  285  kubectl rollout history deploy kubeserve
+  286  kubectl rollout undo deploy kubeserve --to-revision=1
+  287  clear
+  288  kubectl get rs -o wide
+
+
+DaemonSet
+=========
+ kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/controllers/ds-ex1.yml
+kubectl get pods -o wide - by default each node is having one pod
+
+job (one time activity)
+=======================
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/controllers/job-ex1.yml
+  684  kubectl get jobs
+  685  kubectl get pods -o wide
+  686  kubectl logs countdown-kgvvl
+cronjob
+=======
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/controllers/cronjob-ex1.yml
+
+kubectl get cronjob
+kubectl get job
+kubectl get pods
+kubectl logs pod-name - for every one minute it will create one pod and execute job and die after 1mins
+
+for deleting delete pod  ; kubectl delete all --all
+
+Dashboard
+=========
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/dashboard/dashboard-insecure.yml
+
+kubectl get all
+root@master:~# kubectl get all
+NAME                                             READY   STATUS    RESTARTS   AGE
+pod/dashboard-metrics-scraper-7445d59dfd-rjdcv   1/1     Running   0          91s
+pod/kubernetes-dashboard-8ffbc7b6f-n6x7v         1/1     Running   0          91s
+pod/pramipod2-node-1                             1/1     Running   2          4m12s
+
+NAME                                TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+service/dashboard-metrics-scraper   ClusterIP   10.99.133.93   <none>        8000/TCP       91s
+service/kubernetes                  ClusterIP   10.96.0.1      <none>        443/TCP        4m4s
+service/kubernetes-dashboard        NodePort    10.97.13.116   <none>        80:31514/TCP   91s
+
+NAME                                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/dashboard-metrics-scraper   1/1     1            1           91s
+deployment.apps/kubernetes-dashboard        1/1     1            1           91s
+
+NAME                                                   DESIRED   CURRENT   READY   AGE
+replicaset.apps/dashboard-metrics-scraper-7445d59dfd   1         1         1       91s
+replicaset.apps/kubernetes-dashboard-8ffbc7b6f         1         1         1       91s
+
+
+
+with node port u can access the dashboard with master/node ip
+35.232.70.202:31514/  - u can access by using this url
+
+creating pod on perticular node by instructing scheduler
+=======================================================
+
+https://raw.githubusercontent.com/lerndevops/educka/master/dashboard/dashboard-insecure.yml
+
+create podnew.yml file with this content
+root@master:~# cat podnew.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeserve
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kubeserve
+  template:
+    metadata:
+      name: kubeserve
+      labels:
+        app: kubeserve
+    spec:
+      nodeName: node-1
+      containers:
+      - image: leaddevops/kubeserve:v1
+        name: app
+
+creating pod on perticular node by following label
+==================================================
+  359  kubectl label node node2 color=green
+  365  kubectl get nodes --show-labels
+  366  kubectl delete all --all
+  367  kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/pods/placement/nodeSelector-pod.yml
+  368  kubectl get pods -o wide
+kubectl edit node node2   - for editing nodes
+
+
+taints & tolerations
+=====================
+  733  kubectl taint node node-1 zone=red:NoSchedule
+  734  kubectl describe node1 | grep Taint
+  735  kubectl describe node-1 | grep Taint
+  736  kubectl describe node node-1 | grep Taint
+  737  kubectl run pod2 --image nginx
+  738  kubectl get pods -o wide
+  739  kubectl run pod3 --image nginx
+  740  kubectl get pods -o wide
+
+create tolerate.yml file with below content
+===========================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeserve1
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: kubeserve
+  template:
+    metadata:
+      name: kubeserve
+      labels:
+        app: kubeserve
+    spec:
+      tolerations:
+        - key: zone
+          operator: "Equal"
+          value: "red"
+          effect: "NoSchedule"
+      containers:
+      - image: leaddevops/kubeserve:v1
+        name: app
+
+
+kubectl create -f tolerate.yml
+kubectl get pods -o wide
+root@master:~# kubectl get pods -o wide
+NAME                          READY   STATUS    RESTARTS   AGE     IP          NODE     NOMINATED NODE   READINESS GATES
+kubeserve1-6bc74c5c76-2klw7   1/1     Running   0          79s     10.44.0.3   node-1   <none>           <none>
+kubeserve1-6bc74c5c76-dxg2b   1/1     Running   0          79s     10.36.0.4   node-2   <none>           <none>
+kubeserve1-6bc74c5c76-kdpb5   1/1     Running   0          79s     10.44.0.5   node-1   <none>           <none>
+kubeserve1-6bc74c5c76-npscf   1/1     Running   0          79s     10.44.0.4   node-1   <none>           <none>
+kubeserve1-6bc74c5c76-prwjm   1/1     Running   0          79s     10.36.0.5   node-2   <none>           <none>
+pod1                          1/1     Running   0          9m31s   10.44.0.2   node-1   <none>           <none>
+pod2                          1/1     Running   0          7m28s   10.36.0.2   node-2   <none>           <none>
+pod3                          1/1     Running   0          5m21s   10.36.0.3   node-2   <none>           <none>
+pramipod2-node-1              1/1     Running   2          13m     10.44.0.1   node-1   <none>           <none>
+
+
+NoSchedule :
+NoExecute : 
+root@master:~# kubectl describe node master | grep Taint
+Taints:             node-role.kubernetes.io/master:NoSchedule
+
+in master it wont allow any pod to create beacuse of this Taint property
+
+
+kubectl taint node node-1 zone=red:NoSchedule-   --> to delete taints u have to add - at end
+
+drain & cardon
+==============
+
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/        - official cheetsheet of kubernetes u can open in exam also
+
+kubectl drain node-1
+kubectl uncardon node-1
+
+namespaces & Limits
+==================
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/security/namespaces/resource-quotas/object-counts-demo.yml
+
+417  kubectl create ns dev
+  418  kubectl create ns prod
+  419  kubectl -n dev create -f https://raw.githubusercontent.com/lerndevops/educka/master/security/namespaces/resource-quotas/object-counts-demo.yml
+  420  kubectl get quota -n dev
+  421  kubectl describe quota object-counts  -n dev
+  422  kubectl create deploy deploy1 --image nginx -n dev
+  423  kubectl describe quota object-counts  -n dev
+  424  kubectl create deploy deploy2 --image nginx -n dev
+  425  kubectl describe quota object-counts  -n dev
+  426  kubectl create deploy deploy3 --image nginx -n dev
+  427  kubectl scale deploy deploy1 --replicas 10 -n dev
+  428  kubectl get deploy deploy1 -n dev
+  429  kubectl get deploy  -n dev
+
+prod
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/security/namespaces/resource-quotas/compute-resources-demo.yml
+
+
+
+etcd backup
+============
+https://github.com/lerndevops/educka/tree/master/components/etcd
+
+export RELEASE="3.3.13"
+   wget https://github.com/etcd-io/etcd/releases/download/v${RELEASE}/etcd-v${RELEASE}-linux-amd64.tar.gz
+   tar xvf etcd-v${RELEASE}-linux-amd64.tar.gz
+   cd etcd-v${RELEASE}-linux-amd64
+   sudo mv etcdctl /usr/local/bin
+
+
+taking backup
+=============
+mkdir /etcd-backup
+ETCDCTL_API=3 etcdctl --endpoints=10.128.0.3:2379 --cacert /etc/kubernetes/pki/etcd/ca.crt --cert /etc/kubernetes/pki/etcd/server.crt --key /etc/kubernetes/pki/etcd/server.key snapshot save /etcd-backup/etcd-snapshot-latest.db
+
+
+for checking the backup one delete /var/lib/etcd - only etcd folder delete
+
+restore backup
+==============
+restore ETCD Data:
+ETCDCTL_API=3 etcdctl snapshot restore /etcd-backup/etcd-snapshot-latest.db --initial-cluster etcd-restore=https://10.128.0.3:2380 --initial-advertise-peer-urls=https://10.128.0.3:2380 --name etcd-restore --data-dir /var/lib/etcd
+
+output: 
+
+root@master:/var/lib# ETCDCTL_API=3 etcdctl snapshot restore /etcd-backup/etcd-snapshot-latest.db --initial-cluster etcd-restore=https://10.128.0.3:2380 --initial-advertise-peer-urls=https://10.128.0.3:2380 --name etcd-restore --data-dir /var/lib/etcd
+2021-02-06 02:56:46.303100 I | mvcc: restore compact to 69028
+2021-02-06 02:56:46.311588 I | etcdserver/membership: added member a470a301ea90ead5 [https://10.128.0.3:2380] to cluster dbb53a51871a5715
+
+kubectl get pods - it will show all pods
+
+metrics server
+==============
+500  kubectl get pods
+  501  kubectl top pods
+  502  kubectl top nodes
+  503  git clone https://github.com/lerndevops/educka
+  504  cd educka/monitoring/metrics-server/
+  505  kubectl create -f .
+
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/controllers/hpa/hpa.yml
+
+apt-get install apache2-util
+
+
+storage 
+======
+empty dir
+
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/storage/vol-emptyDir-ex2.yml
+
+  854  kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/storage/vol-emptyDir-ex2.yml
+  855  kubectl get pods
+  856  kubectl exec --it myvolumes-pod -c myvolumes-container-1 -- bash
+  857  kubectl exec -it myvolumes-pod -c myvolumes-container-1 -- bash
+  858  kubectl exec -it myvolumes-pod -c myvolumes-container-2 -- bash
+
+usecase of emptydir
+
+https://raw.githubusercontent.com/lerndevops/educka/master/pods/init-cont-pod-ex1.yml
+
+  861  kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/pods/init-cont-pod-ex1.yml
+  862  kubectl get pods
+  863  kubectl get pods -o wide
+  864  curl 10.36.0.1
+  865  curl 10.36.0.1:80
+  866  curl 10.44.0.2
+
+HostPath:
+========
+storing logs on host machine instead of pod temporary path
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/storage/vol-hostPath-pod.yml
+
+where ever the pod running create this path in that node /tmp/logs
+
+PC, PVC, STORAGE
+================
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/storage/pv.yml  
+kubectl get pv 
+
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/storage/pvc.yml
+kubectl get pvc
+
+root@master:/tmp# kubectl get pv
+NAME    CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM            STORAGECLASS   REASON   AGE
+my-pv   1000Mi     RWO            Recycle          Bound    default/my-pvc   standard                7m24s
+
+creating pod
+
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/storage/pvc-hostpath-pod.yml
+kubectl get pods -o wide
+check the node on which it will create /tmp/pvdata path 
+
+
+storage class creation
+
+https://raw.githubusercontent.com/lerndevops/educka/master/storage/storageclass/sc-gcp-pdssd.yml
+
+configmap
+https://raw.githubusercontent.com/lerndevops/educka/master/storage/configmap-ex1.yml
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/storage/configmap-ex2.yml
+kubectl get pods -o wide
+kubectl exec -it cm-env-var-pod -- bash
+printenv - it will show all the environment variables
+
+secret
+
+kubectl create secret generic test-secret --from-literal='username=my-app' --from-literal='password=
+
+
+echo -n prami|base64 
+echo -n value|base64 -d
+
+
+git clone https://github.com/lerndevops/microservices-demo
+kubectl get all -n sock-shop
+
+
+QUESTIONS & ANSWERS
+===================
+
+1. List all the namespaces in the cluster
+	Kubectl get all –all-namespaces
+2. List all the pods in all namespaces
+	Kubectl get pods –all-namespaces
+3. List all the pods in the particular namespace
+	Kubectl get pods -n kube-system
+4. List all the services in the particular namespace
+             Kubectl get svc -n kube-system
+5. List all the pods showing name and namespace with a json path expression
+         Kubectl get pods -o=jsonpath=”{.items[*][‘metadata.name’,metadata.namespace’]}”
+6. Create an nginx pod in a default namespace and verify the pod running
+   Kubectl run nginx –image nginx 
+   kubectl get pods
+7. generate the yaml for pod called nginx2 & write to /opt/nginx203.yml. DONOT create the pod
+  Kubectl run nginx2 –image nginx –dry-run=client -o=ymal  >/opt/nginx203.yml
+8. Output the yaml file of the pod nginx created above & write the output to /opt/nginx.yml
+      Kubectl get pod nginx2 -o yaml >/opt/nginx.yml
+9. Output the yaml file of the pod you just created without the cluster-specific information
+
+10. Get the complete details of the pod nginx you just created
+       Kubectl describe pod nginx
+11. Delete the pod nginx you just created
+      Kubectl delete pod pod1
+12. create a pod named alpine with image nginx & Delete the pod created without any delay (force delete)
+Kubectl run alpine –image nginx
+Kubectl delete pod alpine --force
+13. Create the nginx pod with version 1.17.4 and expose it on port 80
+Kubectl run nginx –image=nginx:1.17.4 –port=80
+14. Change the Image version to 1.15-alpine for the pod you just created and verify the image version is updated
+Kubectl ge pod nginx -o yaml  >/opt/nginx.yml  
+Open this fine and edit the image version to 1.15-alpine save it
+Kubectl apply -f /opt/nginx.yml   ->  kubectl describe pod nginx (here u can see the image got change)
+15. Change the Image version back to 1.17.1 for the pod you just updated and observe the changes
+Kubectl get pod nginx -o yaml >/opt/nginx1.yml  -> change the image version to 1.17.1 and apply the changes
+Kubectl apply -f nginx1.yml  -> now describe the pod and check the image version
+Kubectl describe pod nginx
+16. Check the Image version without the describe command (use jsonpath)
+Kubectl get pod nginx -o=jsonpath=’{.spec.containers[].image}{“\n”}’
+17. Create the nginx pod and execute the simple shell on the pod
+	Kubectl run nginx –image nginx
+Kubectl exec -it nginx – bash
+18. Get the IP Address of the pod you just created
+   Kubectl get pods -o wide
+Kubectl get pod nginx -o wide 
+
+19. Create a busybox pod and run command ls while creating it and check the logs
+    Kubectl run busybox –image=busybox –restart=Never – ls
+   Kubectl logs busybox
+20. If pod crashed check the previous logs of the pod
+	Kubectl logs pod2 -p
+21. Create a busybox pod with command sleep 3600
+      Kubectl run busybox –image=busybox –restart=Never -- /bin/sh -c “sleep 3600”
+22. Check the connection of the nginx pod from the busybox pod
+          Kubectl exec -it busybox – sh  -- wget 10.47.0.1  (or)  Kubectl exec -it busybox – sh
+         Ping  10.47.0.1
+23. Create a busybox pod and echo message ‘How are you’ and delete it manually
+Kubectl run busybox –image=busybox –restart=Never -it – echo “How are You”
+Kubectl delete pod busybox
+
+24. Create a busybox pod and echo message ‘How are you’ and have it deleted immediately
+   Kubectl run busybox –image=busybox –restart=Never -it –rm – echo “How are you”
+
+25. Create an nginx pod and list the pod with different levels of verbosity
+	Kubectl run nginx –image=nginx –restart==Never –port=80
+             Kubectl get pod nginx --v=7   (or)    Kubectl get pod nginx -v=7   
+             Kubectl get pod nginx -v=8
+             Kubectl get pod nginx --v=9
+
+26. List the nginx pod with custom columns POD_NAME and POD_STATUS
+
+kubectl get pods -o=custom-columns="POD_NAME:.meta.name,POD_STATUS:.status.containerStatuses[].state"
+
+27. List all the pods sorted by name
+  Kubectl get pods –sort-by=.metadata.name
+
+28. List all the pods sorted by created timestamp
+     kubectl get pods --sort-by=.metadata.creationTimestamp
+
+29. Create a Pod with three busy box containers with commands “ls; sleep 3600;”, “echo Hello World; sleep 3600;” and “echo this is the third container; sleep 3600” respectively and check the status
+ kubectl run busybox --image=busybox --restart=Never --dry-run=client -o yaml -- /bin/sh -c "sleep 3600; ls" >/opt/multi-pod2.yml  edit this yaml file and add belwo content to create 3 containers
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: busybox
+  name: busybox
+spec:
+  containers:
+  - args:
+    - /bin/sh
+    - -c
+    - ls; sleep 3600;
+    image: busybox
+    name: busybox1
+    resources: {}
+  - args:
+    - /bin/sh
+    - -c
+    - echo Hello World; sleep 3600;
+    image: busybox
+    name: busybox2
+    resources: {}
+  - args:
+    - /bin/sh
+    - -c
+    - echo this is third container; sleep 3600;
+    image: busybox
+    name: busybox3
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+kubectl create -f multi-pod.yml
+30. Check the logs of each container that you just created
+	Kubectl logs pod multi-pod -c pod1
+        Kubectl logs pod multi-pod -c pod2
+        Kubectl logs pod multi-pod -c pod3
+
+31. Check the previous logs of the second container busybox2 if any
+	
+kubectl logs busybox -c busybox2 -previous
+
+kubectl logs busybox -c busybox2 --previous
+
+32. Run command ls in the third container busybox3 of the above pod
+	kubectl exec busybox -c busybox3 -- ls
+
+33. Show metrics of the above pod containers and puts them into the file.log and verify
+	
+  kubectl top pod busybox --containers >/opt/file.log
+
+
+36. Get the pods with label information
+  Kubectl get pods –show-labels
+
+37. Create 5 nginx pods in which two of them is labeled env=prod and three of them is labeled env=dev
+ kubectl run pod1 --image nginx --labels="env=prod"
+  kubectl run pod2 --image nginx --labels="env=prod"
+  kubectl run pod3 --image nginx --labels="env=dev"
+  kubectl run pod4 --image nginx --labels="env=dev"
+ kubectl run pod5 --image nginx --labels="env=dev"
+
+38. Verify all the pods are created with correct labels
+	Kubectl get pods –show-labels
+
+39. Get the pods with label env=dev
+Kubectl get pods -l env-prod
+
+40. Get the pods with label env=dev and also output the labels
+	Kubectl get pods -l env=dev 
+
+41. Get the pods with label env=prod
+	Kubectl get pods -l env=prod
+
+42. Get the pods with label env=prod and also output the labels
+	Kubectl get pods -l env=prod –show-labels
+
+43. Get the pods with label env
+	kubectl get pods -L env
+
+44. Get the pods with labels env=dev and env=prod
+	Kubectl get pods -l ‘env in (prod,dev)’ –show-labels
+
+
+45. Get the pods with labels env=dev and env=prod and output the labels as well
+	Kubectl get pods -l ‘env in (prod,dev)’ –show-labels
+
+46. Change the label for one of the pod to env=uat and list all the pods to verify
+	Kubectl edit pod pod1  -> and edit prod to uat
+
+47. Remove the labels for the pods that we created now and verify all the labels are removed
+     kubectl label pod pod1 env-
+     kubectl label pod pod2 env-
+     kubectl label pod pod3 env-
+     kubectl label pod pod4 env-
+      kubectl label pod pod5 env-
+
+kubectl get pods --show-labels
+
+48. Let’s add the label app=nginx for all the pods and verify
+Kubectl label pod pod1 app=nginx
+
+Kubectl get pods –show-labels
+
+49. Get all the nodes with labels 
+	kubectl get nodes --show-labels
+
+50. Label the node node1 nodeName=nginxnode
+      Kubectl label node nod21 nodename=nginxnode
+
+
+
+51. Create a Pod that will be deployed on this node with the label nodeName=nginxnode
+Kubectl run nginx –image=nginx –restart=Never –dry-run=client -o yaml >/opt/nginx.yml
+Under specifications add the below tags  
+spec:
+  nodeSelector:
+    nodeName: nginxnode
+pod5.yml file content
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  nodeSelector:
+    nodeName: nginxnode
+  containers:
+  - image: nginx
+    name: nginx
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+52. Verify the pod that it is scheduled with the node selector
+	Kubectl describe pod nginx | grep Node-Selectors
+
+53. Verify the pod nginx that we just created has this label
+         Kubectl describe pod nginx | grep Labels
+
+57. Remove all the pods that we created so far
+	Kubectl delete all --all
+
+58. Create a deployment called webapp with image nginx with 5 replicas
+ kubectl create deploy webapp --image=nginx --replicas=5
+
+59. Get the deployment you just created with labels
+	Kubectl get deploy webapp –show-labels
+
+60. Output the yaml file of the deployment you just created
+	Kubectl get deploy webapp -o yaml >/opt/deploy.txt
+
+61. Get the pods of this deployment
+	Kubect get pod -l app=webapp
+
+62. Scale the deployment from 5 replicas to 8 replicas and verify
+	kubectl scale deploy webapp --replicas=8
+
+63. Get the deployment rollout status
+	Kubectl rollout status deploy webapp
+
+64. Get the replicaset that created with this deployment
+	kubectl get rs -l app=webapp
+
+65. Get the yaml of the replicaset and pods of this deployment
+	Kubectl get rs,pods -l app=webapp -o yaml >/opt/output.txt
+
+66. Delete the deployment you just created and watch all the pods are also being deleted
+   Kubectl delete deploy webapp
+   Kubectl get pods -l app=webapp
+
+67. Create a deployment of webapp with image nginx:1.17.1 with container port 80 and verify the image version
+	Kubectl create deploy webapp –image=nginx:1.17.1 –port=80
+               Kubectl describe deploy webapp | grep Image
+
+68. Update the deployment with the image version 1.17.4 and verify
+	Kubectl set image deploy nginx nginx=nginx:1.17.4
+
+69. Check the rollout history and make sure everything is ok after the update
+	Kubectl rollout history deploy webapp
+
+70. Undo the deployment to the previous version 1.17.1 and verify Image has the previous version
+	Kubectl rollout undo deploy webapp 
+              Kubectl  describe deploy webapp | grep Image
+
+71. Update the deployment with the image version 1.16.1 and verify the image and also check the rollout history
+	Kubectl set image deploy webapp nginx=nginx:1.16.1
+               Kubectl rollout history deploy webapp
+
+72. Update the deployment to the Image 1.17.1 and verify everything is ok
+	Kubectl set image deploy webapp nginx:nginx:1.17.1  (or)
+              Kubectl rollout undo deploy webapp
+              Kubectl  rollout history deploy webapp
+
+73. Update the deployment with the wrong image version 1.100 and verify something is wrong with the deployment
+	Kubectl set image deploy webapp nginx=nginx:1.100
+	Kubectl rollout status deploy webapp
+	Kubectl get pods -o wide
+
+74. Undo the deployment with the previous version and verify everything is Ok
+	Kubectl rollout undo deploy webapp
+        Kubectl rollout status deploy webapp
+        Kubectl get pods -o wide
+
+75. Check the history of the specific revision of that deployment
+	kubectl rollout history deploy webapp --revision=7
+
+76. Pause the rollout of the deployment
+                Kubectl rollout pause deploy webapp
+
+77. Update the deployment with the image version latest and check the history and verify nothing is going on
+	Kubectl set image deploy webapp nginx=nginx:latest
+              Kubectl rollout history deploy webapp   (here no revision newly added we can observe)
+
+78. Resume the rollout of the deployment
+Kubectl rollout resume deploy webapp
+
+79. Check the rollout history and verify it has the new version
+	Kubectl describe deploy webapp | grep Image (or)
+              Kubectl rollout history deploy webapp –revision=8 
+
+80. Apply the autoscaling to this deployment with minimum 10 and maximum 20 replicas and target CPU of 85% and verify hpa is created and replicas are increased to 10 from 1
+	Kubectl autoscale deploy webapp –min=10 –max=20 –cpu-percent=85
+
+81. Clean the cluster by deleting deployment and hpa you just created
+	Kubctl delete deploy webapp
+        Kubectl delete hpa webapp
+
+82. Create a Job with an image node which prints node version and also verifies there is a pod created for this job
+	Kubectl create job nodeversion –image=node – node -v
+        Kubectl get job -w
+        Kubectl get pods -o wide
+
+83. Get the logs of the job just created
+	Kubectl logs podname
+
+84.Output the yaml file for the Job with the image busybox which echos “Hello I am from job”
+        Kubectl create job hello-job –iamge=busybox –dry-run=client -o yaml – echo “Hello I am from job”
+
+85. Copy the above YAML file to hello-job.yaml file and create the job
+	Kubectl create job hello-job –iamge=busybox –dry-run=client -o yaml – echo “Hello I am from job”  >/hello-job.yaml
+	Kubctl create -f hello-job.yaml
+
+86. Verify the job and the associated pod is created and check the logs as well
+	Kubectl get job
+	Kubectl get pods -o wide
+	Kubectl log jobpodname
+
+87. Delete the job we just created
+	Kubectl delete job hello-job
+
+88. Create the same job and make it run 10 times one after one
+     Kubectl create job hello-job –image=busybox 
+
+89. Watch the job that runs 10 times one by one and verify 10 pods are created and delete those after it’s completed
+	Kubectl create job hello-job –image=busybox –dry-run=cleint -o yaml – echo “Hello I am from job”   >/opt/hello-job.yaml   ? in the specifications section add completions: 10 
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: hello-job
+spec:
+  completions: 10
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - command:
+        - echo
+        - Hello I am from Job
+        image: busybox
+        name: hello-job
+        resources: {}
+      restartPolicy: Never
+status: {}
+kubectl create -f hello-job.yaml -> 10 containers will create and complete their job one after the other
+kubectl delete all --all
+
+90. Create the same job and make it run 10 times parallel
+Kubectl create job hello-job –image=busybox –dry-run=cleint -o yaml – echo “Hello I am from job”   >/opt/hello-job.yaml   ? in the specifications section add completions: 10 
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: hello-job
+spec:
+  parallelism: 10
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - command:
+        - echo
+        - Hello I am from Job
+        image: busybox
+        name: hello-job
+        resources: {}
+      restartPolicy: Never
+status: {}
+kubectl create -f hello-job.yaml -> 10 containers will create and complete their job one after the other
+kubectl delete all --all
+
+91. Watch the job that runs 10 times parallelly and verify 10 pods are created and delete those after it’s completed
+	Kubectl get job -w
+	Kubectl get pods
+	Kubeclt delete job hello-job
+	
+92. Create a Cronjob with busybox image that prints date and hello from kubernetes cluster message for every minute
+   kubectl create cronjob date-job --image=busybox --schedule="*/1 * * * *" -- bin/sh -c "date; echo Hello from kubernetes cluster"
+
+93. Output the YAML file of the above cronjob
+	Kubectl get cj date-job -o yaml
+
+94. Verify that CronJob creating a separate job and pods for every minute to run and verify the logs of the pod
+	Kubectl get job
+        Kubect get pod
+	Kubectl logs date-job-pod
+95. Delete the CronJob and verify all the associated jobs and pods are also deleted.
+	Kubectl delete cj date-job
+
+96. List Persistent Volumes in the cluster
+                  Kubectl get pv
+
+97. Create a hostPath PersistentVolume named task-pv-volume with storage 10Gi, access modes ReadWriteOnce, storageClassName manual, and volume at /mnt/data and verify
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: task-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+kubectl create -f task-pv-volume.yaml
+kuebctl get pv
+
+98. Create a PersistentVolumeClaim of at least 3Gi storage and access mode ReadWriteOnce and verify status is Bound
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: task-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+kubectl create -f task-pvc-claim.yaml
+kubectl get pvc   -> it wil show bound status
+
+99. Delete persistent volume and PersistentVolumeClaim we just created
+	kubectl delete pvc task-pv-claim
+      kubectl delete pv task-pv-volume
+
+100. Create a Pod with an image Redis and configure a volume that lasts for the lifetime of the Pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis
+spec:
+  containers:
+  - name: redis
+    image: redis
+    volumeMounts:
+    - name: redis-storage
+      mountPath: /data/redis
+  volumes:
+  - name: redis-storage
+    emptyDir: {}
+kubectl create -f redis.yaml
+
+101. Exec into the above pod and create a file named file.txt with the text ‘This is called the file’ in the path /data/redis and open another tab and exec again with the same pod and verifies file exist in the same path.
+Kubectl exec -it redis – bash
+cd redis # echo ‘This is called the file’ > file.txt
+
+102. Delete the above pod and create again from the same yaml file and verifies there is no file.txt in the path /data/redis
+
+
+103. Create PersistentVolume named task-pv-volume with storage 10Gi, access modes ReadWriteOnce, storageClassName manual, and volume at /mnt/data and Create a PersistentVolumeClaim of at least 3Gi storage and access mode ReadWriteOnce and verify status is Bound
+
+
+104. Create an nginx pod with containerPort 80 and with a PersistentVolumeClaim task-pv-claim and has a mouth path "/usr/share/nginx/html"
+apiVersion: v1
+kind: Pod
+metadata:
+  name: task-pv-pod
+spec:
+  volumes:
+    - name: task-pv-storage
+      persistentVolumeClaim:
+        claimName: task-pv-claim
+  containers:
+    - name: task-pv-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: task-pv-storage
+
+kubectl create -f task-pv-volumed-pod.yaml
+
+105. List all the configmaps in the cluster
+	Kubectl get configmaps (or) kubectl get cm
+
+106. Create a configmap called myconfigmap with literal value appname=myapp
+ kubectl create cm myconfigmap --from-literal=appname=myapp
+
+107. Verify the configmap we just created has this data
+	Kubectl get cm -o yaml  (or) kubectl describe cm
+
+108. delete the configmap myconfigmap we just created
+	Kubectl delete cm myconfigmap
+
+109. Create a file called config.txt with two values key1=value1 and key2=value2 and verify the file
+cat >> config.txt << EOF
+key1=value1
+key2=value2
+EOF
+
+cat config.txt
+
+110. Create a configmap named keyvalcfgmap and read data from the file config.txt and verify that configmap is created correctly
+	Kubectl create cm keyvalcfgmap  --from-file=/opt/config.txt
+	Kubectl get cm keyvalcfgmap -o yaml
+
+
+
+151. Create a yaml file called db-secret.yaml for a secret called db-user-pass. The secret should have two fields: a username and password. The username should be "superadmin" and the password should be "imamazing".
+Kubectl create secret generic db-user-pass –from-literal=username=superadmin –from-literal=password=imamazing  --dry-run=client -o yaml >/opt/db-secret.yaml
+152. Create a ConfigMap called web-config that contains the following two entries: 'web_port' set to 'localhost:8080' 'external_url' set to 'reddit.com' Run a pod called web-config-pod running nginx, expose the configmap settings as environment variables inside the nginx container.
+Kubectl create cm web-config  --from-literal=web_port=localhost:80 –from-literal=external_url=reddit.com
+root@master:/opt# cat web-config-pod.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: web-config-pod
+  name: web-config-pod
+spec:
+  containers:
+  - image: nginx
+    name: web-config-pod
+    envFrom:
+    - configMapRef:
+          name: web-config
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+
+
+
+170. create a pod named redis using image radis:alpha
+Kubectl run redis –image=radis:alpha
+171. create a pod using image tomcat & assign label app with value web 
+Kubectl run tomcat –image=tomcat
+Kubectl label tomcat app=web
+172. create a pod named kual203 using image lerndevops/alpine:beta, find the errors in the logs, write the error messages to a file /opt/kual203.txt
+kubectl run kual203 --image=lerndevops/alpine:beta
+kubectl logs kual203 >/opt/kual203.txt
+173. Deploy a messaging pod using the redis:alpine image with the labels set to tier=msg & app=web
+     Kubectl run messaging –image=redis:alpine -l tier=msg,app=web
+174. list all the pods with label app=web & write the output to a file /opt/webpods.txt
+Kubectl get pods -l app=web >/opt/webpods.txt
+175. deploy pod using https://raw.githubusercontent.com/lerndevops/educka/master/exam-prep/app-redis.yml, if there are any errors try to fix them and ensure the pod status is running. DO NOT delete the pod. 
+kubectl create -f https://raw.githubusercontent.com/lerndevops/educka/master/exam-prep/app-redis.yml --dry-run=client -o yaml >/opt/myapp-pod.yml
+   edit myapp-pod.yml (sleeeep 60 to sleep 60) and run the pod 
+176. Create a POD in the finance namespace named red-bus with the image redis:alpine
+Kubectl create ns finance
+Kubectl run red-bus –image=redis:alpine -n finance
+177. deploy a pod with forex name using lerndevops/tomcat:8.5.3 in finance namespace with label env=qa
+Kubectl run forex –image=lerndevops/tomcat:8.5.3. -l env=qa -n finance
+178. list all pods with running status in finance namespace and write the output to /opt/kufinpods.txt
+Kubectl get pods -n finance | grep Running >/opt/kufinpods.txt
+179. deploy a pod named envpod using image nginx & apply env variables username=dbuser password=dbpass
+
+
+180
+
+I try to check how many nodes are ready (not including nodes tainted NoSchedule) and write the number to text file output.txt
+
+kubectl get node -o=jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.taints[*].effect}{"\n"}{end}' | grep -v NoSchedule | wc -l
+2
+or
+
+kubectl get nodes --selector='!node-role.kubernetes.io/master' --no-headers | grep -v SchedulingDisabled | wc -l
+
+
+
+
+
+
+
+
+
+
+
